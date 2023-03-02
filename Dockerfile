@@ -1,19 +1,24 @@
 FROM ubuntu:22.04
 
-# Pythonと関連ツールをインストール
-RUN apt-get update && \
-    apt-get install -y software-properties-common git curl python3 python3-pip nodejs npm
+# SSL証明書検証エラー対応
+RUN apt update && \
+    apt install -y ca-certificates software-properties-common
+COPY cert/* /usr/local/share/ca-certificates/
+RUN update-ca-certificates
 
 # GOインストール用にPPA追加
 RUN add-apt-repository ppa:longsleep/golang-backports
 
-# GOインストール
-RUN apt-get update && \
-    apt-get install -y golang
+# Python，関連ツールをインストール
+RUN apt update && \
+    apt install -y git curl python3 python3-pip nodejs npm
 
 # コンテスト補助アプリケーションをインストール
 RUN pip install online-judge-tools
 RUN npm install -g atcoder-cli
+
+# GOをインストール
+RUN apt install -y  golang-go
 
 # GOの補助ツールインストール
 RUN go install github.com/cweill/gotests/gotests@latest
