@@ -30,3 +30,4 @@ RUN go install honnef.co/go/tools/cmd/staticcheck@latest
 RUN go install golang.org/x/tools/gopls@latest
 
 ENV PATH $PATH:/root/go/bin
+ENV REQUESTS_CA_BUNDLE /etc/ssl/certs/
