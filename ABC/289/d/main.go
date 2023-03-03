@@ -26,42 +26,37 @@ func lineToSlice() []int {
 }
 
 func main() {
-	// N, _ := strconv.Atoi(nextLine())
-	nextLine()
+	N, _ := strconv.Atoi(nextLine())
 	A := lineToSlice()
-	// M, _ := strconv.Atoi(nextLine())
-	nextLine()
+	M, _ := strconv.Atoi(nextLine())
 	B := lineToSlice()
 	X, _ := strconv.Atoi(nextLine())
 
-	if stepup(X, A, B, 0, false) {
+	steps := make([]bool, X+1)
+	steps[0] = true
+
+	mochi := map[int]bool{}
+	for i := 0; i < M; i++ {
+		mochi[B[i]] = true
+	}
+
+	for i := 0; i < X; i++ {
+		if !steps[i] {
+			continue
+		}
+
+		for j := 0; j < N; j++ {
+			next := i + A[j]
+			_, m := mochi[next]
+			if next <= X && !m {
+				steps[next] = true
+			}
+		}
+	}
+
+	if steps[X] {
 		fmt.Println("Yes")
 	} else {
 		fmt.Println("No")
 	}
-}
-
-func stepup(X int, A []int, B []int, step int, reached bool) bool {
-	if reached {
-		return true
-	}
-
-	for _, a := range A {
-		next := step + a
-		if next == X {
-			return true
-		} else if next < X && !contains(B, next) {
-			reached = stepup(X, A, B, next, reached)
-		}
-	}
-	return reached
-}
-
-func contains(elements []int, v int) bool {
-	for _, e := range elements {
-		if e == v {
-			return true
-		}
-	}
-	return false
 }

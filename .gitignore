@@ -1,3 +1,4 @@
 tests/
-cert/
+cert/*
+!cert/.gitkeep
 tmp/
