@@ -43,35 +43,21 @@ func main() {
 
 	N := scanInt()
 	A := lineToInts(N)
-	M := scanInt()
-	B := lineToInts(M)
-	X := scanInt()
+	called := make([]bool, N)
 
-	steps := make([]bool, X+1)
-	steps[0] = true
-
-	mochi := make(map[int]bool, M)
-	for i := 0; i < M; i++ {
-		mochi[B[i]] = true
-	}
-
-	for i := 0; i < X; i++ {
-		if !steps[i] {
-			continue
-		}
-
-		for j := 0; j < N; j++ {
-			next := i + A[j]
-			_, m := mochi[next]
-			if next <= X && !m {
-				steps[next] = true
-			}
+	for i := 0; i < N; i++ {
+		if !called[i] {
+			called[A[i]-1] = true
 		}
 	}
 
-	if steps[X] {
-		fmt.Println("Yes")
-	} else {
-		fmt.Println("No")
+	X := []string{}
+	for i := 0; i < N; i++ {
+		if !called[i] {
+			X = append(X, strconv.Itoa(i+1))
+		}
 	}
+
+	fmt.Println(len(X))
+	fmt.Println(strings.Join(X, " "))
 }

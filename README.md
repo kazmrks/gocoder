@@ -25,3 +25,15 @@ VSCodeのDev ContainerとGoでAtCoderの環境セットを構築します。
     ```bash
     acc s main.go
     ```
+
+## Runtime Error(RE)対応
+
+1. bufio.Scannerのデフォルトサイズエラー
+
+    読み込める文字の最大サイズが`MaxScanTokenSize = 64 * 1024`で約6万5千文字のため、Scan時に超える場合エラー。
+
+    `(*Scanner).Buffer`でサイズ指定する。
+
+    ```go
+    sc.Buffer([]byte{}, math.MaxInt64)
+    ```
