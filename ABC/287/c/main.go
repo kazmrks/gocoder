@@ -58,75 +58,59 @@ func main() {
 		return
 	}
 
-	seq := [][]int{}
+	path := make([][]int, N+1)
+	for i := 1; i <= N; i++ {
+		path[i] = make([]int, 2)
+	}
+
 	for i := 0; i < M; i++ {
-		seq = append(seq, lineToInts(2))
+		node := lineToInts(2)
+		u := node[0]
+		v := node[1]
+
+		if path[u][1] != 0 || path[v][1] != 0 {
+			fmt.Println("No")
+			return
+		}
+
+		if path[u][0] == 0 {
+			path[u][0] = v
+		} else if path[u][1] == 0 {
+			if path[u][0] == v {
+				fmt.Println("No")
+				return
+			}
+			path[u][1] = v
+		}
+
+		if path[v][0] == 0 {
+			path[v][0] = u
+		} else if path[v][1] == 0 {
+			if path[v][0] == u {
+				fmt.Println("No")
+				return
+			}
+			path[v][1] = u
+		}
 	}
 
-	path := []int{seq[0][0], seq[0][1]}
-	seq = seq[1:]
-	ok := buildPath(path, seq)
+	edge := 0
+	for i := 1; i <= N; i++ {
+		u := path[i][0]
+		v := path[i][1]
 
-	if ok {
+		if u == 0 && v == 0 {
+			fmt.Println("No")
+			return
+		}
+
+		if (u == 0 && v != 0) || (u != 0 && v == 0) {
+			edge++
+		}
+	}
+	if edge == 2 {
 		fmt.Println("Yes")
-	} else {
-		fmt.Println("No")
+		return
 	}
-}
-
-func buildPath(path []int, seq [][]int) bool {
-	if len(seq) == 0 {
-		return true
-	}
-
-	first := path[0]
-	last := path[len(path)-1]
-	removed := false
-
-	for i, v := range seq {
-		if v[0] == first {
-			path = insertFirst(path, v[1])
-			seq = removeAt(seq, i)
-			removed = true
-			break
-		}
-
-		if v[1] == first {
-			path = insertFirst(path, v[0])
-			seq = removeAt(seq, i)
-			removed = true
-			break
-		}
-
-		if v[0] == last {
-			path = append(path, v[1])
-			seq = removeAt(seq, i)
-			removed = true
-			break
-		}
-
-		if v[1] == last {
-			path = append(path, v[0])
-			seq = removeAt(seq, i)
-			removed = true
-			break
-		}
-	}
-
-	if !removed {
-		return false
-	}
-
-	return buildPath(path, seq)
-}
-
-func insertFirst(path []int, value int) []int {
-	path = append(path[:1], path[0:]...)
-	path[0] = value
-	return path
-}
-
-func removeAt(seq [][]int, pos int) [][]int {
-	seq = append(seq[:pos], seq[pos+1:]...)
-	return seq
+	fmt.Println("No")
 }
