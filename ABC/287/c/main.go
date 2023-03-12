@@ -58,56 +58,49 @@ func main() {
 		return
 	}
 
-	path := make([][]int, N+1)
-	for i := 1; i <= N; i++ {
-		path[i] = make([]int, 2)
-	}
-
+	path := map[int][]int{}
 	for i := 0; i < M; i++ {
 		node := lineToInts(2)
 		u := node[0]
 		v := node[1]
 
-		if path[u][1] != 0 || path[v][1] != 0 {
-			fmt.Println("No")
-			return
-		}
-
-		if path[u][0] == 0 {
-			path[u][0] = v
-		} else if path[u][1] == 0 {
-			if path[u][0] == v {
+		p, exists := path[u]
+		if !exists {
+			path[u] = []int{v, 0}
+		} else {
+			if p[1] != 0 || p[0] == v {
 				fmt.Println("No")
 				return
 			}
-			path[u][1] = v
+			path[u] = []int{p[0], v}
 		}
 
-		if path[v][0] == 0 {
-			path[v][0] = u
-		} else if path[v][1] == 0 {
-			if path[v][0] == u {
+		p, exists = path[v]
+		if !exists {
+			path[v] = []int{u, 0}
+		} else {
+			if p[1] != 0 || p[0] == u {
 				fmt.Println("No")
 				return
 			}
-			path[v][1] = u
+			path[v] = []int{p[0], u}
 		}
 	}
 
 	edge := 0
 	for i := 1; i <= N; i++ {
-		u := path[i][0]
-		v := path[i][1]
+		p, exists := path[i]
 
-		if u == 0 && v == 0 {
+		if !exists {
 			fmt.Println("No")
 			return
 		}
 
-		if (u == 0 && v != 0) || (u != 0 && v == 0) {
+		if p[1] == 0 {
 			edge++
 		}
 	}
+
 	if edge == 2 {
 		fmt.Println("Yes")
 		return
