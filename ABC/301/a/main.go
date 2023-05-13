@@ -24,18 +24,30 @@ func scanInt() int {
 	return i
 }
 
-func lineToInts(n int) []int {
-	slice := make([]int, n)
+func lineToInts() []int {
+	slice := []int{}
 	text := strings.Split(nextLine(), " ")
 
-	for i := 0; i < n; i++ {
-		v, err := strconv.Atoi(text[i])
+	for _, t := range text {
+		v, err := strconv.Atoi(t)
 		if err != nil {
 			panic(err)
 		}
-		slice[i] = v
+		slice = append(slice, v)
 	}
 	return slice
+}
+
+func printInts(s []int) {
+	p := []string{}
+	for _, v := range s {
+		p = append(p, strconv.Itoa(v))
+	}
+	fmt.Println(strings.Join(p, " "))
+}
+
+func printStrings(s []string) {
+	fmt.Println(strings.Join(s, " "))
 }
 
 func contains(elements []int, v int) bool {
@@ -51,17 +63,31 @@ func main() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 
 	N := scanInt()
+	S := nextLine()
 
-	F := 0
-	for i := 0; i < N; i++ {
-		if nextLine() == "For" {
-			F++
+	t, a := 0, 0
+	for _, v := range S {
+		if v == 'T' {
+			t++
+		} else {
+			a++
+		}
+
+		if N >= 2 {
+			if t >= N/2 {
+				fmt.Println("T")
+				return
+			}
+			if a >= N/2 {
+				fmt.Println("A")
+				return
+			}
 		}
 	}
 
-	if F > N/2 {
-		fmt.Println("Yes")
+	if t > a {
+		fmt.Println("T")
 	} else {
-		fmt.Println("No")
+		fmt.Println("A")
 	}
 }

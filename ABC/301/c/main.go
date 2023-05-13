@@ -62,4 +62,58 @@ func contains(elements []int, v int) bool {
 func main() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 
+	S := nextLine()
+	T := nextLine()
+
+	s1 := [27]int{}
+	s2 := [27]int{}
+
+	for i := 0; i < len(S); i++ {
+		if S[i] == '@' {
+			s1[0]++
+		} else {
+			pos := S[i] - 'a' + 1
+			s1[pos]++
+		}
+
+		if T[i] == '@' {
+			s2[0]++
+		} else {
+			pos := T[i] - 'a' + 1
+			s2[pos]++
+		}
+	}
+
+	d1 := 0
+	d2 := 0
+	for i := 1; i < 26; i++ {
+		if s1[i] > s2[i] {
+			if notAtcoder(i) {
+				fmt.Println("No")
+				return
+			}
+			d1 = d1 + s1[i] - s2[i]
+		}
+		if s1[i] < s2[i] {
+			if notAtcoder(i) {
+				fmt.Println("No")
+				return
+			}
+			d2 = d2 + s2[i] - s1[i]
+		}
+	}
+
+	if s1[0] >= d2 {
+		fmt.Println("Yes")
+		return
+	} else {
+		fmt.Println("No")
+	}
+}
+
+func notAtcoder(v int) bool {
+	if v == 1 || v == 3 || v == 4 || v == 5 || v == 15 || v == 18 || v == 20 {
+		return false
+	}
+	return true
 }

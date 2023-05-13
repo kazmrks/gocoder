@@ -62,4 +62,28 @@ func contains(elements []int, v int) bool {
 func main() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 
+	N := scanInt()
+	A := lineToInts()
+	B := []int{A[0]}
+	for i := 1; i < N; i++ {
+		ai := B[len(B)-1]
+		if math.Abs(float64(ai-A[i])) == 1 {
+			B = append(B, A[i])
+			continue
+		}
+
+		if ai < A[i] {
+			diff := A[i] - ai
+			for j := 1; j < diff; j++ {
+				B = append(B, ai+j)
+			}
+		} else if ai > A[i] {
+			diff := ai - A[i]
+			for j := 1; j < diff; j++ {
+				B = append(B, ai-j)
+			}
+		}
+		B = append(B, A[i])
+	}
+	printInts(B)
 }

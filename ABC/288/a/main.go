@@ -24,18 +24,30 @@ func scanInt() int {
 	return i
 }
 
-func lineToInts(n int) []int {
-	slice := make([]int, n)
+func lineToInts() []int {
+	slice := []int{}
 	text := strings.Split(nextLine(), " ")
 
-	for i := 0; i < n; i++ {
-		v, err := strconv.Atoi(text[i])
+	for _, t := range text {
+		v, err := strconv.Atoi(t)
 		if err != nil {
 			panic(err)
 		}
-		slice[i] = v
+		slice = append(slice, v)
 	}
 	return slice
+}
+
+func printInts(s []int) {
+	p := []string{}
+	for _, v := range s {
+		p = append(p, strconv.Itoa(v))
+	}
+	fmt.Println(strings.Join(p, " "))
+}
+
+func printStrings(s []string) {
+	fmt.Println(strings.Join(s, " "))
 }
 
 func contains(elements []int, v int) bool {
@@ -51,12 +63,9 @@ func main() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 
 	N := scanInt()
-	A := lineToInts(N)
-	res := []string{}
-	for _, v := range A {
-		if v%2 == 0 {
-			res = append(res, strconv.Itoa(v))
-		}
+
+	for i := 0; i < N; i++ {
+		p := lineToInts()
+		fmt.Println(p[0] + p[1])
 	}
-	fmt.Println(strings.Join(res, " "))
 }
