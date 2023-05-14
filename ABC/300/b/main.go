@@ -63,92 +63,42 @@ func main() {
 	sc.Buffer([]byte{}, math.MaxInt64)
 
 	l := lineToInts()
+	H := l[0]
+	W := l[1]
 
 	A := [][]rune{}
 	B := [][]rune{}
 
-	CountA := []int{}
-	CountB := []int{}
-
-	for i := 0; i < l[0]; i++ {
+	for i := 0; i < H; i++ {
 		line := nextLine()
 		r := []rune(line)
-
-		count := 0
-		for _, v := range r {
-			if v == '.' {
-				count++
-			}
-		}
-		CountA = append(CountA, count)
 		A = append(A, r)
 	}
 
-	for i := 0; i < l[0]; i++ {
+	for i := 0; i < H; i++ {
 		line := nextLine()
 		r := []rune(line)
-
-		count := 0
-		for _, v := range r {
-			if v == '.' {
-				count++
-			}
-		}
-		CountB = append(CountB, count)
 		B = append(B, r)
 	}
 
-	shift := 0
-	for i := 1; i < l[0]; i++ {
-		if isMatchCount(CountA, shiftH(CountB, i)) {
-			shift = i
-			break
-		}
-	}
+	for s := 0; s < H; s++ {
+		for t := 0; t < W; t++ {
 
-	if shift == 0 {
-		fmt.Println("No")
-		return
-	}
-
-	s := ""
-	for _, v := range A {
-		s = s + string(v[0])
-	}
-
-	for i := 0; i < l[1]; i++ {
-		ss := shiftW(B, shift, i)
-		if s == ss {
-			fmt.Println("Yes")
-			return
+			match := true
+			for i := 0; i < H; i++ {
+				for j := 0; j < W; j++ {
+					if A[(i+s)%H][(j+t)%W] != B[i][j] {
+						match = false
+						break
+					}
+				}
+			}
+			if match {
+				fmt.Println("Yes")
+				return
+			}
 		}
 	}
 
 	fmt.Println("No")
-}
-
-func shiftH(s []int, n int) []int {
-	res := s[n:]
-	res = append(res, s[:n]...)
-	return res
-}
-
-func shiftW(r [][]rune, n int, pos int) string {
-	res := r[n:]
-	res = append(res, r[:n]...)
-
-	s := ""
-	for i := 0; i < len(res); i++ {
-		s = s + string(res[i][pos])
-	}
-	return s
-}
-
-func isMatchCount(a []int, b []int) bool {
-	for i := 0; i < len(a); i++ {
-		if a[i] != b[i] {
-			return false
-		}
-	}
-	return true
 }
