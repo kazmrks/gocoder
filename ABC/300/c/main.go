@@ -1,18 +1,77 @@
 package main
 
 import (
-	"github.com/kazmrks/gocoder/io"
+	"bufio"
+	"fmt"
+	"math"
+	"os"
+	"strconv"
+	"strings"
 )
 
+var sc = bufio.NewScanner(os.Stdin)
+
+func init() {
+	sc.Buffer([]byte{}, math.MaxInt64)
+}
+
+func nextLine() string {
+	sc.Scan()
+	return sc.Text()
+}
+
+func scanInt() int {
+	i, err := strconv.Atoi(nextLine())
+	if err != nil {
+		panic(err)
+	}
+	return i
+}
+
+func lineToInts() []int {
+	slice := []int{}
+	text := strings.Split(nextLine(), " ")
+
+	for _, t := range text {
+		v, err := strconv.Atoi(t)
+		if err != nil {
+			panic(err)
+		}
+		slice = append(slice, v)
+	}
+	return slice
+}
+
+func printInts(s []int) {
+	p := []string{}
+	for _, v := range s {
+		p = append(p, strconv.Itoa(v))
+	}
+	fmt.Println(strings.Join(p, " "))
+}
+
+func printStrings(s []string) {
+	fmt.Println(strings.Join(s, " "))
+}
+
+func contains(elements []int, v int) bool {
+	for _, e := range elements {
+		if e == v {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
-	line := io.LineToInts()
+	line := lineToInts()
 	H := line[0]
 	W := line[1]
 
 	C := [][]rune{}
 
 	for i := 0; i < H; i++ {
-		C = append(C, []rune(io.NextLine()))
+		C = append(C, []rune(nextLine()))
 	}
 
 	S := make([]int, min(H, W))
@@ -37,6 +96,7 @@ func main() {
 						C[a-k][b+k] = '.'
 						C[a-k][b-k] = '.'
 					}
+					n = 0
 				}
 			} else {
 				if C[i][j] == '#' {
@@ -45,7 +105,7 @@ func main() {
 			}
 		}
 	}
-	io.PrintInts(S)
+	printInts(S)
 }
 
 func min(H, W int) int {
