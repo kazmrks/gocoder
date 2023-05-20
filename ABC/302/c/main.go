@@ -90,7 +90,35 @@ func nextPermutation(x sort.Interface) bool {
 }
 
 func main() {
-	N := scanInt()
+	l := lineToInts()
+	S := []string{}
 
-	fmt.Println(N)
+	for i := 0; i < l[0]; i++ {
+		S = append(S, nextLine())
+	}
+
+	sort.Strings(S)
+	for nextPermutation(sort.StringSlice(S)) {
+		res := true
+		for i := 0; i < l[0]-1; i++ {
+			a := strings.Split(S[i], "")
+			b := strings.Split(S[i+1], "")
+
+			diff := 0
+			for k := 0; k < l[1]; k++ {
+				if a[k] != b[k] {
+					diff++
+				}
+			}
+			if diff != 1 {
+				res = false
+			}
+		}
+
+		if res {
+			fmt.Println("Yes")
+			return
+		}
+	}
+	fmt.Println("No")
 }
