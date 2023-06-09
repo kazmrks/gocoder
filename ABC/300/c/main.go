@@ -77,30 +77,14 @@ func main() {
 	S := make([]int, min(H, W))
 
 	for i := 0; i < H; i++ {
-		n := 0
-		cross := false
 		for j := 0; j < W; j++ {
-			if cross {
-				n++
-				if C[i][j] == '#' {
-					cross = false
-					n = n / 2
-					S[n-1]++
-
-					a := i + n
-					b := j - n
-					C[a][b] = '.'
-					for k := n; k > 0; k-- {
-						C[a+k][b+k] = '.'
-						C[a+k][b-k] = '.'
-						C[a-k][b+k] = '.'
-						C[a-k][b-k] = '.'
+			if C[i][j] == '#' {
+				if test(C, i, j, H, W, 1) {
+					n := 1
+					for test(C, i, j, H, W, n+1) {
+						n++
 					}
-					n = 0
-				}
-			} else {
-				if C[i][j] == '#' {
-					cross = true
+					S[n-1]++
 				}
 			}
 		}
@@ -114,4 +98,15 @@ func min(H, W int) int {
 	} else {
 		return W
 	}
+}
+
+func test(C [][]rune, i, j, H, W, d int) bool {
+	if i-d < 0 || j-d < 0 || i+d >= H || j+d >= W {
+		return false
+	}
+
+	if C[i-d][j-d] == '.' || C[i-d][j+d] == '.' || C[i+d][j-d] == '.' || C[i+d][j+d] == '.' {
+		return false
+	}
+	return true
 }
