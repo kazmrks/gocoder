@@ -118,13 +118,12 @@ func main() {
 	}
 
 	for i := 0; i < len(med); i++ {
+		count -= med[i].b
 		if count <= K {
-			fmt.Println(med[i-1].a + 1)
+			fmt.Println(med[i].a + 1)
 			return
 		}
-
-		count -= med[i].b
 	}
 
-	fmt.Println(med[len(med)-1].b + 1)
+	fmt.Println(med[len(med)-1].a + 1)
 }
