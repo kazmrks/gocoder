@@ -93,37 +93,23 @@ func main() {
 	N := scanInt()
 	S := nextLine()
 
-	text := del(S, N)
-	fmt.Println(text)
-}
-
-func del(text string, n int) string {
-	brackets := false
-	front, end := 0, 0
-
-	i := 0
-	for ; i < n; i++ {
-		if brackets {
-			if text[i] == '(' {
-				front = i
-			} else if text[i] == ')' {
-				end = i
-				break
+	brackets := []int{}
+	text := ""
+	for i := 0; i < N; i++ {
+		if S[i] == '(' {
+			text += string(S[i])
+			brackets = append(brackets, len(text)-1)
+		} else if S[i] == ')' {
+			if len(brackets) > 0 {
+				pos := brackets[len(brackets)-1]
+				text = text[:pos]
+				brackets = brackets[:len(brackets)-1]
+			} else {
+				text += string(S[i])
 			}
 		} else {
-			if text[i] == '(' {
-				brackets = true
-				front = i
-			}
+			text += string(S[i])
 		}
 	}
-
-	if front < end {
-		text = text[:front] + text[end+1:]
-	}
-
-	if i < n {
-		return del(text, len(text))
-	}
-	return text
+	fmt.Println(text)
 }
