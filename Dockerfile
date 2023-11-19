@@ -18,16 +18,17 @@ RUN pip install online-judge-tools
 RUN npm install -g atcoder-cli
 
 # GOをインストール
-RUN apt install -y  golang-go
+RUN apt install -y golang-1.20
+
+# ENV PATH $PATH:/root/go/bin
+ENV PATH $PATH:/usr/lib/go-1.20/bin
+ENV REQUESTS_CA_BUNDLE /etc/ssl/certs/
 
 # GOの補助ツールインストール
-RUN go install github.com/cweill/gotests/gotests@latest
-RUN go install github.com/fatih/gomodifytags@latest
-RUN go install github.com/josharian/impl@latest
-RUN go install github.com/haya14busa/goplay/cmd/goplay@latest
+# RUN go install github.com/cweill/gotests/gotests@latest
+# RUN go install github.com/fatih/gomodifytags@latest
+# RUN go install github.com/josharian/impl@latest
+# RUN go install github.com/haya14busa/goplay/cmd/goplay@latest
 RUN go install github.com/go-delve/delve/cmd/dlv@latest
 RUN go install honnef.co/go/tools/cmd/staticcheck@latest
 RUN go install golang.org/x/tools/gopls@latest
-
-ENV PATH $PATH:/root/go/bin
-ENV REQUESTS_CA_BUNDLE /etc/ssl/certs/
