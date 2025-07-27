@@ -13,6 +13,14 @@
             "problemMatcher": [
                 "$go"
             ]
+        },
+        {
+            "label": "cptmpl",
+            "type": "shell",
+            "command": "cp ${workspaceFolder}/template.go ${cwd}/main.go",
+            "options": {
+            },
+            "problemMatcher": []
         }
     ]
 }

@@ -13,7 +13,7 @@ VSCodeのDev ContainerとGoでAtCoderの環境セットを構築します。
     acc new ABC289
     # 解きたい問題のフォルダに移動
     cd ABC289/a
-    # テンプレートファイルをコピー
+    # テンプレートファイルをコピー(VSCodeのTaskあり: cptmpl)
     cp ../../../template.go main.go
     ```
 
