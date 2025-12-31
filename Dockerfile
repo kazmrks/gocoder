@@ -29,3 +29,6 @@ RUN pip3 install setuptools && \
 COPY --from=builder /go/bin/dlv /go/bin/dlv
 COPY --from=builder /go/bin/staticcheck /go/bin/staticcheck
 COPY --from=builder /go/bin/gopls /go/bin/gopls
+
+RUN echo "alias cptmpl='cp /workspaces/gocoder/template.go main.go'" >> ~/.bashrc \
+    && source ~/.bashrc
